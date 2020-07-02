@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+	<title>Cartão de Crédito</title>
+	<script type="text/javascript" src="scripts/primefaces-calendar-ptbr.js" />
+</h:head>
+
+<h:body>
+	<p:lifecycle />
+
+	<p:messages globalOnly="true" closable="true">
+		<p:autoUpdate />
+	</p:messages>
+
+	<h:form>
+
+		<p:panel header="Cadastro de cliente">
+
+			<p:panelGrid columns="3" styleClass="ui-panelgrid-blank">
+
+				<p:outputLabel for="name" value="Nome:" />
+				<p:inputText value="#{clientBean.client.name}" id="name" maxlength="255" size="100"/>
+				<p:message for="name" />
+				
+				<p:outputLabel for="email" value="E-mail:" />
+				<p:inputText value="#{clientBean.client.email}" id="email" maxlength="255" size="80" />
+				<p:message for="email" />
+				
+				<p:outputLabel for="phone" value="Telefone:" />
+				<p:inputMask value="#{clientBean.client.phone}" id="phone" mask="(99) 999?9-9999"/>
+				<p:message for="phone" />
+				
+				<p:outputLabel for="birthDate" value="Data de Nascimento:" />
+				<p:calendar id="birthDate" value="#{clientBean.client.birthDate}" pattern="dd/MM/yyyy" mask="99/99/9999" locale="pt" />
+				<p:message for="birthDate" />
+				
+				<p:outputLabel for="documentNumber" value="CPF:" />
+				<p:inputMask value="#{clientBean.client.documentNumber}" id="documentNumber" mask="999.999.999-99"/>
+				<p:message for="documentNumber" />
+				
+				<p:outputLabel for="monthlyIncome" value="Renda mensal:" />
+				<p:inputNumber value="#{clientBean.client.monthlyIncome}" id="monthlyIncome" decimalSeparator="," thousandSeparator="."/>
+				<p:message for="monthlyIncome" />
+				
+
+			</p:panelGrid>
+
+			<f:facet name="footer">
+				<p:commandButton value="Voltar" icon="fa fa-arrow-left" onclick="history.go(-1)" />
+				<p:commandButton value="Listar" icon="fa fa-arrow-right" action="#{clientBean.list()}" update="formTable"/>
+				<p:commandButton value="Salvar" icon="fa fa-save" action="#{clientBean.save()}" update="@form formTable" />
+			</f:facet>
+
+		</p:panel>
+		
+	</h:form>
+	<br />
+	<h:form id="formTable">
+		
+		<p:panel  header="Lista de clients"  id="panelList" toggleable="true" visible="#{not empty clientBean.clients}">
+	
+			
+			<p:dataTable value="#{clientBean.clients}" var="client" rows="5" paginator="true" id="tableUser">
+				<p:column headerText="Ações">
+					<p:commandButton value="Excluir" action="#{clientBean.delete(client.id)}" update="formTable tableUser" icon="fa fa-trash"/>
+			    </p:column>
+			 
+			    <p:column headerText="Cliente">
+			        <h:outputText value="#{client.name}" />
+			    </p:column>
+			 
+			    <p:column headerText="E-mail">
+			        <h:outputText value="#{client.email}" />
+			    </p:column>
+			 
+			    <p:column headerText="Data de Nascimento">
+			        <h:outputText value="#{client.birthDate}" />
+			    </p:column>
+			    
+			    <p:column headerText="CPF">
+			        <h:outputText value="#{client.documentNumber}" />
+			    </p:column>
+			
+			</p:dataTable>
+		
+		</p:panel>
+
+	</h:form>
+</h:body>
+</html>

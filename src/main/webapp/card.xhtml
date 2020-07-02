@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+	<title>Cartão de Crédito</title>
+	<script type="text/javascript" src="scripts/primefaces-calendar-ptbr.js" />
+</h:head>
+
+<h:body>
+	<p:lifecycle />
+
+	<p:messages globalOnly="true" closable="true">
+		<p:autoUpdate />
+	</p:messages>
+
+	<h:form>
+
+		<p:panel header="Cadastro de cartão">
+
+			<p:panelGrid columns="3" styleClass="ui-panelgrid-blank">
+
+				<p:outputLabel for="client" value="Cliente:" />
+				<p:selectOneMenu value="#{cardBean.card.client.id}" id="client">
+					<f:selectItems value="#{cardBean.customers}" />
+				</p:selectOneMenu>
+				<p:message for="client" />
+				
+				<p:outputLabel for="moneyLimit" value="Crédito inicial:" />
+				<p:inputNumber value="#{cardBean.card.moneyLimit}" id="moneyLimit" decimalSeparator="," thousandSeparator="."/>
+				<p:message for="moneyLimit" />
+				
+			</p:panelGrid>
+
+			<f:facet name="footer">
+				<p:commandButton value="Voltar" icon="fa fa-arrow-left" onclick="history.go(-1)" />
+				<p:commandButton value="Gerar cartão" icon="fa fa-save" action="#{cardBean.save()}" update="@form formTable" />
+			</f:facet>
+
+		</p:panel>
+		
+	</h:form>
+	<br />
+	<h:form id="formTable">
+		
+		<p:panel  header="Lista de cartões"  id="panelList" toggleable="true">
+	
+			<p:panelGrid columns="3" styleClass="ui-panelgrid-blank">
+				<p:outputLabel for="client" value="Cliente:" />
+				<p:selectOneMenu value="#{cardBean.client}" id="client">
+					<f:selectItems value="#{cardBean.customers}"/>
+				</p:selectOneMenu>
+				<p:commandButton value="Listar Cartões" action="#{cardBean.list()}" update="@form tableCard" />
+			</p:panelGrid>
+			<br />
+			<p:dataTable value="#{cardBean.cards}" var="card" rows="5" paginator="true" id="tableCard">
+			
+			    <p:column headerText="Número do cartão">
+			        <h:outputText value="#{card.number}" />
+			    </p:column>
+			 
+			    <p:column headerText="CVV">
+			        <h:outputText value="#{card.cvv}" />
+			    </p:column>
+			 
+			    <p:column headerText="Data de Validade">
+			        <h:outputText value="#{card.validDate}" />
+			    </p:column>
+			
+			</p:dataTable>
+		
+		</p:panel>
+
+	</h:form>
+</h:body>
+</html>

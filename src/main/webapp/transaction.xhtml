@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+	<title>Cartão de Crédito</title>
+	<script type="text/javascript" src="scripts/primefaces-calendar-ptbr.js" />
+</h:head>
+
+<h:body>
+	<p:lifecycle />
+
+	<p:messages globalOnly="true" closable="true">
+		<p:autoUpdate />
+	</p:messages>
+
+	<h:form>
+
+		<p:panel header="Cadastro de transações">
+
+			<p:panelGrid columns="6"  styleClass="ui-panelgrid-blank">
+				<p:outputLabel for="card" value="Cartão de crédito:" />
+				<p:inputMask value="#{transactionBean.cardNumber}" id="card" mask="9999-9999-9999-9999"/>
+				<p:message for="card" />
+				
+				<p:outputLabel for="cvv" value="CVV:" />
+				<p:inputMask value="#{transactionBean.transaction.cvv}" id="cvv" mask="999"/>
+				<p:message for="cvv" />
+			</p:panelGrid>
+
+			<p:panelGrid columns="3" styleClass="ui-panelgrid-blank">
+				
+				<p:outputLabel for="value" value="Valor da transação:" />
+				<p:inputNumber value="#{transactionBean.transaction.amount}" id="value" decimalSeparator="," thousandSeparator="."/>
+				<p:message for="value" />
+				
+				<p:outputLabel for="type" value="Tipo de operação:" />
+				<p:selectOneRadio id="type" value="#{transactionBean.transaction.transactionType}" unselectable="true">
+		            <f:selectItem itemLabel="Crédito" itemValue="Crédito" />
+		            <f:selectItem itemLabel="Débito" itemValue="Débito" />
+		        </p:selectOneRadio>
+				<p:message for="type" />
+				
+				<p:outputLabel for="agent" value="Agente Financeiro:" />
+				<p:inputText value="#{transactionBean.transaction.store}" id="agent" />
+				<p:message for="agent" />
+				
+			</p:panelGrid>
+
+			<f:facet name="footer">
+				<p:commandButton value="Voltar" icon="fa fa-arrow-left" onclick="history.go(-1)" />
+				<p:commandButton value="Gerar transação" icon="fa fa-save" action="#{transactionBean.save()}" update="@form formTable" />
+			</f:facet>
+
+		</p:panel>
+		
+	</h:form>
+	<br />
+	<h:form id="formTable">
+		
+		<p:panel  header="Lista de transações"  id="panelList" toggleable="true">
+	
+			<p:panelGrid columns="3" styleClass="ui-panelgrid-blank">
+				<p:outputLabel for="card" value="Cartão:" />
+				<p:inputMask value="#{transactionBean.cardNumber}" id="card" mask="9999-9999-9999-9999"/>
+				<p:commandButton value="Listar transações" action="#{transactionBean.list()}" update="@form tableTransaction" />
+			</p:panelGrid>
+			<br />
+			<p:dataTable value="#{transactionBean.transactionList}" var="trans" rows="5" paginator="true" id="tableTransaction">
+			
+			    <p:column headerText="Cliente">
+			        <h:outputText value="#{trans.store}" />
+			    </p:column>
+			 
+			    <p:column headerText="Data e hora">
+			        <h:outputText value="#{trans.date}" />
+			    </p:column>
+			 
+			    <p:column headerText="Tipo">
+			        <h:outputText value="#{trans.transactionType}" />
+			    </p:column>
+			    
+			    <p:column headerText="Valor">
+			        <h:outputText value="#{trans.amount}" />
+			    </p:column>
+			    
+			</p:dataTable>
+		
+		</p:panel>
+
+	</h:form>
+</h:body>
+</html>

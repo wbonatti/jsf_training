@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+	<title>Cartão de Crédito</title>
+	<script type="text/javascript" src="scripts/primefaces-calendar-ptbr.js" />
+</h:head>
+
+<h:body>
+	<p:lifecycle />
+
+	<p:messages globalOnly="true">
+		<p:autoUpdate />
+	</p:messages>
+
+	<h:form>
+
+		<br />
+		<h3>Bem vindo ao sistema</h3>
+		<br />
+		<h4>Selecione o menu abaixo para prosseguir</h4>
+		
+		
+		<p:tabMenu activeIndex="5">
+		    <p:menuitem value="Clientes" outcome="/client" icon="pi pi-user"/>
+		    <p:menuitem value="Cartões" outcome="/card" icon="pi pi-file"/>
+		    <p:menuitem value="Transações" outcome="/transaction" icon="pi pi-briefcase"/>
+		    <p:menuitem value="Relatórios" outcome="/report" icon="pi pi-search"/>
+		</p:tabMenu>
+		
+	</h:form>
+</h:body>
+</html>

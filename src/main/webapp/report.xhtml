@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+	<title>Cartão de Crédito</title>
+	<script type="text/javascript" src="scripts/primefaces-calendar-ptbr.js" />
+</h:head>
+
+<h:body>
+	<p:lifecycle />
+
+	<p:messages globalOnly="true" closable="true">
+		<p:autoUpdate />
+	</p:messages>
+
+	<h:form>
+
+		<p:panel header="Parametros de busca">
+
+			<p:panelGrid columns="4" styleClass="ui-panelgrid-blank">
+
+				<p:outputLabel for="initDate" value="Data de Início:" />
+				<p:calendar id="initDate" value="#{reportBean.startDate}" pattern="dd/MM/yyyy" mask="99/99/9999" locale="pt" />
+				
+				<p:outputLabel for="endDate" value="Data de Fim:" />
+				<p:calendar id="endDate" value="#{reportBean.endDate}" pattern="dd/MM/yyyy" mask="99/99/9999" locale="pt" />
+
+				<p:outputLabel for="client" value="Cliente" />
+				<p:selectOneMenu value="#{reportBean.client}" id="client">
+					<f:selectItem itemLabel="Esolha" />
+					<f:selectItems value="#{reportBean.customers}" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="card" value="Cartão:" />
+				<p:inputMask value="#{reportBean.card}" id="card" mask="9999-9999-9999-9999"/>
+				
+			</p:panelGrid>
+
+			<f:facet name="footer">
+				<p:commandButton value="Voltar" icon="fa fa-arrow-left" onclick="history.go(-1)" />
+				<p:commandButton value="Limpar" icon="fa fa-arrow-right" action="#{reportBean.clean()}" update="@form"/>
+				<p:commandButton value="Gerar Relatório" icon="fa fa-save" action="#{reportBean.save()}" update="@form chart"/>
+			</f:facet>
+
+		</p:panel>
+	</h:form>
+	<br />
+	<br />
+	<p:chart type="bar" model="#{reportBean.dateModel}" style="height:400px;" id="chart">
+		<p:autoUpdate />
+	</p:chart>
+</h:body>
+</html>
